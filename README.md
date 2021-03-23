@@ -9,7 +9,7 @@ However, it is important to note that this mechanism comes with some caveats: Fr
 
 ![wanring image](./images/warning.png)
 
-Each sample provides a mechanism to respond to a file being uploaded to Azure Blob Storage. The response will be to place a message onto a Azure Service bus instance and thus trigger a workflow of some kind:
+Each sample provides a mechanism to respond to a file being uploaded to Azure Blob Storage. The response will be to place a message onto a Azure Service bus instance and thus potentially trigger a workflow of some kind:
 
 ## Blob Trigger
 
@@ -19,9 +19,15 @@ If you would like to deploy the Azure resources to your own subscription please 
     <img src="https://aka.ms/deploytoazurebutton"/>
 </a>
 
+The BlobTrigger sample uses a standard BlobTrigger to start a Logic App.
+
 ## Poll Blob
 
-xaxax
+The polling version uses a recurrence trigger that fires on a schedule. When the trigger fires the Logic app will enumerate a storage container and check whether a specific property is set on a Blob's metadata.
+
+> There currently isn't a Blob Storage connector to retrieve the metadata so we have an Azure Function that does this job and is added to the Logic flow using an Azure Function connector.
+
+The polling Logic app will then send a service bus message if the custom metadata value has not been previously set otherwise no other action will be taken.
 
 ## Event Grid
 
