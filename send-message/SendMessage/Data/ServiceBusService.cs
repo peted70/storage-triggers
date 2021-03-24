@@ -19,7 +19,7 @@ namespace SendMessage.Data
         {
             // The sender is responsible for publishing messages to the queue.
             ServiceBusSender sender = _client.CreateSender(queueName);
-            ServiceBusMessage message = new ServiceBusMessage(file.Name);
+            ServiceBusMessage message = new ServiceBusMessage(file.Name + " from SendMessage");
             await sender.SendMessageAsync(message);
         }
     }
