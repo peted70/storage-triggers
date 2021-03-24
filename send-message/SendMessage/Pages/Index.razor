@@ -2,6 +2,7 @@
 
 @using SendMessage.Data
 @inject BlobStorageService BlobService
+@inject ServiceBusService BusService
 
 <h1>Storage Files</h1>
 
@@ -16,6 +17,7 @@ else
             <tr>
                 <th>Name</th>
                 <th>Status</th>
+                <th>Send</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +26,9 @@ else
                 <tr>
                     <td>@file.Name</td>
                     <td>@file.Status</td>
+                    <td>
+                        <button @onclick="() => SendMessage(file)">Send Message</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -37,6 +42,12 @@ else
     protected override async Task OnInitializedAsync()
     {
         files = await BlobService.GetFilesAsync();
+    }
+
+    public async Task SendMessage(BlobFile file)
+    {
+        await BusService.SendMessageAsync(file);
+        this.StateHasChanged();
     }
 }
 

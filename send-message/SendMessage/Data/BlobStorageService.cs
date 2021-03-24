@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
@@ -10,26 +11,34 @@ namespace SendMessage.Data
     {
         BlobContainerClient _bcc;
         const string CustomKey = "customstatus";
+        const string ContainerName = "send-message";
 
         public BlobStorageService(IConfiguration config)
         {
             string connectionString = config.GetConnectionString("Storage_Connection_String");
-            _bcc = new BlobContainerClient(connectionString, "input");
+            _bcc = new BlobContainerClient(connectionString, ContainerName);
             _bcc.CreateIfNotExistsAsync(PublicAccessType.Blob);
         }
 
         public async Task<IEnumerable<BlobFile>> GetFilesAsync()
         {
             List<BlobFile> blobs = new List<BlobFile>();
-            await foreach (BlobItem blob in _bcc.GetBlobsAsync())
+            try
             {
-                var bf = new BlobFile();
-                if (blob.Metadata.TryGetValue(CustomKey, out string value))
+                await foreach (BlobItem blob in _bcc.GetBlobsAsync())
                 {
-                    bf.Status = value;
+                    var bf = new BlobFile();
+                    if (blob.Metadata.TryGetValue(CustomKey, out string value))
+                    {
+                        bf.Status = value;
+                    }
+                    bf.Name = blob.Name;
+                    blobs.Add(bf);
                 }
-                bf.Name = blob.Name;
-                blobs.Add(bf);
+            }
+            catch (RequestFailedException)
+            {
+                // Swallow this as maybe the container doesn't exist yet
             }
             return blobs;
         }
