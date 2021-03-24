@@ -1,0 +1,54 @@
+﻿@page "/"
+
+@using SendMessage.Data
+@inject BlobStorageService BlobService
+@inject ServiceBusService BusService
+
+<h1>Storage Files</h1>
+
+@if (files == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Send</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in files)
+            {
+                <tr>
+                    <td>@file.Name</td>
+                    <td>@file.Status</td>
+                    <td>
+                        <button @onclick="() => SendMessage(file)">Send Message</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private IEnumerable<BlobFile> files;
+
+    protected override async Task OnInitializedAsync()
+    {
+        files = await BlobService.GetFilesAsync();
+    }
+
+    public async Task SendMessage(BlobFile file)
+    {
+        await BusService.SendMessageAsync(file);
+        this.StateHasChanged();
+    }
+}
+
+
