@@ -27,8 +27,11 @@ namespace SendMessage.Data
             {
                 await foreach (BlobItem blob in _bcc.GetBlobsAsync())
                 {
+                    var bc = _bcc.GetBlobClient(blob.Name);
+                    var bp = await bc.GetPropertiesAsync();
+
                     var bf = new BlobFile();
-                    if (blob.Metadata.TryGetValue(CustomKey, out string value))
+                    if (bp.Value.Metadata.TryGetValue(CustomKey, out string value))
                     {
                         bf.Status = value;
                     }
@@ -41,6 +44,12 @@ namespace SendMessage.Data
                 // Swallow this as maybe the container doesn't exist yet
             }
             return blobs;
+        }
+
+        public async Task SetProcessedAsync(BlobFile file)
+        {
+            var bc = _bcc.GetBlobClient(file.Name);
+            await bc.SetMetadataAsync( new Dictionary<string, string>() { { CustomKey, "processed" } });
         }
     }
 }
