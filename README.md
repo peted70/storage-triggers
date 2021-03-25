@@ -9,7 +9,18 @@ However, it is important to note that this mechanism comes with some caveats: Fr
 
 ![warning image](./images/warning.png)
 
-Each sample provides a mechanism to respond to a file being uploaded to Azure Blob Storage. The response will be to place a message onto a Azure Service bus instance and thus potentially trigger a workflow of some kind but that is left as an exercise for the reader:
+This repo discussed four different samples:
+
+1) [Blob Trigger](#blob-trigger)
+1) [Poll Blob](#poll-blob)
+1) [Event Grid](#event-grid)
+1) [Send Message](#send-message)
+
+Each sample provides a mechanism to respond to a file being uploaded to Azure Blob Storage. The response will be to place a message onto a Azure Service bus instance and thus potentially trigger a workflow of some kind but that is left as an exercise for the reader.
+
+## TL;DR
+
+In case you are not interested in the details of each sample I will include some conclusions here.  
 
 ## Blob Trigger
 
