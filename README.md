@@ -103,6 +103,8 @@ public static async Task<IActionResult> Run(
 
 The polling Logic app will then send a service bus message if the custom metadata value has not been previously set otherwise no other action will be taken.
 
+> Note that in the Log App `CheckStorageMetadata` is a built-in connector that allows you to call the Azure Function described above.
+
 ![Polling Trigger Logic App](./images/polltrigger-la.png)
 
 ## Event Grid
