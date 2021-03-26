@@ -24,10 +24,10 @@ In case you are not interested in the details of each sample I concluded that fo
 
 | Method       | Pros                                    | Cons                                                                                |
 |--------------|-----------------------------------------|-------------------------------------------------------------------------------------|
-| BlobTrigger  | Readily accessible free                 | No simple way to retry Can take a while to trigger May not arrive at all            |
-| Poll Blob    | Fully under your control Reliable       | Additional processing cost (to periodically scan storage) Development work required |
-| EventGrid    | Cheap Reliable Fast                     | No simple way to retry                                                              |
-| Send Message | Takes advantage of a natural user event | Sometimes not applicable Development work required                                  |
+| BlobTrigger  | Readily accessible</br> free                 | No simple way to retry</br> Can take a while to trigger</br> May not arrive at all            |
+| Poll Blob    | Fully under your control</br> Reliable       | Additional processing cost (to periodically scan storage) Development work required |
+| EventGrid    | Cheap</br> Reliable</br> Fast                     | No simple way to retry                                                              |
+| Send Message | Takes advantage of a natural user event | Sometimes not applicable</br> Development work required                                  |
 ---------------------------
 
 ## Blob Trigger
