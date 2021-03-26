@@ -19,7 +19,7 @@
             "type": "String"
         },
         "storageAccounts_storagetrigger_name": {
-            "defaultValue": "storagetrigger",
+            "defaultValue": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ) )]",
             "type": "String"
         }
     },
