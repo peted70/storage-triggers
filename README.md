@@ -9,18 +9,26 @@ However, it is important to note that this mechanism comes with some caveats: Fr
 
 ![warning image](./images/warning.png)
 
-This repo discussed four different samples:
+This repo discusses four different samples:
 
-1) [Blob Trigger](#blob-trigger)
-1) [Poll Blob](#poll-blob)
-1) [Event Grid](#event-grid)
-1) [Send Message](#send-message)
+1) [Blob Trigger](#blob-trigger) (managed trigger service built into Azure)
+1) [Poll Blob](#poll-blob) (enumerate storage looking for 'unprocessed' files)
+1) [Event Grid](#event-grid) (use Azure real-time event processing service)
+1) [Send Message](#send-message) (use an app to send the message)
 
-Each sample provides a mechanism to respond to a file being uploaded to Azure Blob Storage. The response will be to place a message onto a Azure Service bus instance and thus potentially trigger a workflow of some kind but that is left as an exercise for the reader.
+Each sample provides a mechanism to respond to a file being uploaded to Azure Blob Storage. The response in each case will be to place a message onto a Azure Service bus instance and thus potentially trigger a workflow of some kind but that is left as an exercise for the reader.
 
 ## TL;DR
 
-In case you are not interested in the details of each sample I will include some conclusions here.  
+In case you are not interested in the details of each sample I concluded that for most scenarios [EventGrid](https://docs.microsoft.com/en-us/azure/event-grid/overview) would be my default choice. In general though most decisions around cloud architecture choices will be driven by considering a plethora of factors including; cost of running, cost of development and maintenance, reliability, performance, etc.
+
+| Method       | Pros                                    | Cons                                                                                |
+|--------------|-----------------------------------------|-------------------------------------------------------------------------------------|
+| BlobTrigger  | Readily accessible free                 | No simple way to retry Can take a while to trigger May not arrive at all            |
+| Poll Blob    | Fully under your control Reliable       | Additional processing cost (to periodically scan storage) Development work required |
+| EventGrid    | Cheap Reliable Fast                     | No simple way to retry                                                              |
+| Send Message | Takes advantage of a natural user event | Sometimes not applicable Development work required                                  |
+---------------------------
 
 ## Blob Trigger
 
