@@ -13,24 +13,17 @@
         "workflows_BlogTriggeredLogicApp_name": {
             "defaultValue": "BlogTriggeredLogicApp",
             "type": "String"
-        },
-        "namespaces_StorageTriggers_name": {
-            "defaultValue": "StorageTriggers",
-            "type": "String"
-        },
-        "storageAccounts_storagetrigger_name": {
-            "defaultValue": "storagetrigger",
-            "type": "String",
-            "minLength": 3,
-            "maxLength": 24
         }        
     },
-    "variables": {},
+    "variables": {
+        "storageName": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ))]",
+        "storageTriggers": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]"
+    },
     "resources": [
         {
             "type": "Microsoft.ServiceBus/namespaces",
             "apiVersion": "2018-01-01-preview",
-            "name": "[parameters('namespaces_StorageTriggers_name')]",
+            "name": "[variables('storageTriggers')]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Basic",
@@ -43,7 +36,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2020-08-01-preview",
-            "name": "[parameters('storageAccounts_storagetrigger_name')]",
+            "name": "[variables('storageName')]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard_RAGRS",
@@ -108,10 +101,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
             "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_StorageTriggers_name'), '/RootManageSharedAccessKey')]",
+            "name": "[concat(variables('storageTriggers'), '/RootManageSharedAccessKey')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_StorageTriggers_name'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('storageTriggers'))]"
             ],
             "properties": {
                 "rights": [
@@ -124,10 +117,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
             "apiVersion": "2018-01-01-preview",
-            "name": "[concat(parameters('namespaces_StorageTriggers_name'), '/default')]",
+            "name": "[concat(variables('storageTriggers'), '/default')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_StorageTriggers_name'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('storageTriggers'))]"
             ],
             "properties": {
                 "defaultAction": "Deny",
@@ -138,10 +131,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/queues",
             "apiVersion": "2018-01-01-preview",
-            "name": "[concat(parameters('namespaces_StorageTriggers_name'), '/storage-trigger')]",
+            "name": "[concat(variables('storageTriggers'), '/storage-trigger')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_StorageTriggers_name'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('storageTriggers'))]"
             ],
             "properties": {
                 "lockDuration": "PT30S",
@@ -162,9 +155,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default')]",
+            "name": "[concat(variables('storageName'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "sku": {
                 "name": "Standard_RAGRS",
@@ -271,10 +264,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2020-08-01-preview",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default/blob-trigger')]",
+            "name": "[concat(variables('storageName'), '/default/blob-trigger')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_storagetrigger_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "properties": {
                 "defaultEncryptionScope": "$account-encryption-key",
