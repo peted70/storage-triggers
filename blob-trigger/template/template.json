@@ -115,20 +115,6 @@
             }
         },
         {
-            "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
-            "apiVersion": "2018-01-01-preview",
-            "name": "[concat(variables('storageTriggers'), '/default')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('storageTriggers'))]"
-            ],
-            "properties": {
-                "defaultAction": "Deny",
-                "virtualNetworkRules": [],
-                "ipRules": []
-            }
-        },
-        {
             "type": "Microsoft.ServiceBus/namespaces/queues",
             "apiVersion": "2018-01-01-preview",
             "name": "[concat(variables('storageTriggers'), '/storage-trigger')]",
