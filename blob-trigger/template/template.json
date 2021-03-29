@@ -63,28 +63,28 @@
         {
             "type": "Microsoft.Web/connections",
             "apiVersion": "2016-06-01",
-            "name": "[variables('storageName')]",
+            "name": "azureBlob",
             "location": "[resourceGroup().location]",
             "kind": "V1",
             "properties": {
-                "displayName": "storagetriggers",
+                "displayName": "azureBlobAPI",
                 "customParameterValues": {},
                 "api": {
-                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureBlob')]"
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureblob')]"
                 }
             }
         },
         {
             "type": "Microsoft.Web/connections",
             "apiVersion": "2016-06-01",
-            "name": "[variables('serviceBusName')]",
+            "name": "serviceBus",
             "location": "[resourceGroup().location]",
             "kind": "V1",
             "properties": {
-                "displayName": "storagetriggers",
+                "displayName": "servicebusAPI",
                 "customParameterValues": {},
                 "api": {
-                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', variables('serviceBusName'))]"
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]"
                 }
             }
         },
