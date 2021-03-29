@@ -2,22 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "connections_azureblob_name": {
-            "defaultValue": "azureblob",
-            "type": "String"
-        },
-        "connections_servicebus_name": {
-            "defaultValue": "servicebus",
-            "type": "String"
-        },
-        "workflows_BlogTriggeredLogicApp_name": {
-            "defaultValue": "BlogTriggeredLogicApp",
-            "type": "String"
-        }        
     },
     "variables": {
         "storageName": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ))]",
-        "storageTriggers": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]"
+        "storageTriggers": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]",
+        "serviceBusName": "servicebus",
+        "logicAppName": "BlogTriggeredLogicApp"
     },
     "resources": [
         {
@@ -73,28 +63,28 @@
         {
             "type": "Microsoft.Web/connections",
             "apiVersion": "2016-06-01",
-            "name": "[parameters('connections_azureblob_name')]",
+            "name": "[variables('storageName')]",
             "location": "[resourceGroup().location]",
             "kind": "V1",
             "properties": {
                 "displayName": "storagetriggers",
                 "customParameterValues": {},
                 "api": {
-                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_azureblob_name'))]"
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', variables('storageName'))]"
                 }
             }
         },
         {
             "type": "Microsoft.Web/connections",
             "apiVersion": "2016-06-01",
-            "name": "[parameters('connections_servicebus_name')]",
+            "name": "[variables('serviceBusName')]",
             "location": "[resourceGroup().location]",
             "kind": "V1",
             "properties": {
                 "displayName": "storagetriggers",
                 "customParameterValues": {},
                 "api": {
-                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_servicebus_name'))]"
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', variables('serviceBusName'))]"
                 }
             }
         },
@@ -160,11 +150,11 @@
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "[parameters('workflows_BlogTriggeredLogicApp_name')]",
+            "name": "[variables('logicAppName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]",
-                "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]"
+                "[resourceId('Microsoft.Web/connections', variables('storageName'))]",
+                "[resourceId('Microsoft.Web/connections', variables('serviceBusName'))]"
             ],
             "properties": {
                 "state": "Enabled",
@@ -232,12 +222,12 @@
                     "$connections": {
                         "value": {
                             "azureblob": {
-                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('storageName'))]",
                                 "connectionName": "azureblob",
                                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureblob')]"
                             },
                             "servicebus": {
-                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('serviceBusName'))]",
                                 "connectionName": "servicebus",
                                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]"
                             }
