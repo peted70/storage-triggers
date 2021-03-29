@@ -223,13 +223,13 @@
                         "value": {
                             "azureblob": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('storageName'))]",
-                                "connectionName": "azureblob",
-                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureblob')]"
+                                "connectionName": "[variables('storageName')]",
+                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', variables('storageName'))]"
                             },
                             "servicebus": {
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('serviceBusName'))]",
-                                "connectionName": "servicebus",
-                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]"
+                                "connectionName": "[variables('serviceBusName')]",
+                                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', variables('serviceBusName'))]"
                             }
                         }
                     }
