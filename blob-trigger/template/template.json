@@ -70,7 +70,7 @@
                 "displayName": "storagetriggers",
                 "customParameterValues": {},
                 "api": {
-                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', variables('storageName'))]"
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureBlob')]"
                 }
             }
         },
