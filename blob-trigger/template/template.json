@@ -7,7 +7,9 @@
         "storageName": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ))]",
         "storageTriggers": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]",
         "serviceBusName": "servicebus",
-        "logicAppName": "BlogTriggeredLogicApp"
+        "logicAppName": "BlogTriggeredLogicApp",
+        "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]",
+        "apiVersion": "[providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]]"
     },
     "resources": [
         {
@@ -73,7 +75,7 @@
                     "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureblob')]"
                 },
                 "parameterValues": {
-                    "accessKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+                    "accessKey": "[listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value]",
                     "accountName": "[variables('storageName')]"
                 }                
             }
