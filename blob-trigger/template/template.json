@@ -74,7 +74,7 @@
                     "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureblob')]"
                 },
                 "parameterValues": {
-                    "accessKey": "[listKeys(variables('resourceId'), '2018-01-01-preview').keys[0].value]",
+                    "accessKey": "[listKeys(variables('resourceId'), '2021-02-01').keys[0].value]",
                     "accountName": "[variables('storageName')]"
                 }                
             }
