@@ -222,13 +222,13 @@
                     "$connections": {
                         "value": {
                             "azureblob": {
-                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('storageName'))]",
-                                "connectionName": "[variables('storageName')]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', 'azureblob')]",
+                                "connectionName": "azureblob",
                                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureBlob')]"
                             },
                             "servicebus": {
-                                "connectionId": "[resourceId('Microsoft.Web/connections', variables('serviceBusName'))]",
-                                "connectionName": "[variables('serviceBusName')]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', 'servicebus')]",
+                                "connectionName": "servicebus",
                                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/serviceBus')]"
                             }
                         }
