@@ -81,6 +81,18 @@ If you would like to deploy the Azure resources to your own subscription please 
     <img src="https://aka.ms/deploytoazurebutton"/>
 </a>
 
+This will direct you to the following page in your Azure subscription:
+
+![Deploy Template](./images/deploy-template.png)
+
+Choose to create a new resource group and select your region and the deployment will create the following resources in your subscription:
+
+![Resources](./images/resources.png)
+
+To remove these resources when you are done:
+
+![Delete RG](./images/delete-rg.png)
+
 ## Poll Blob
 
 The polling version uses a recurrence trigger that fires on a schedule. When the trigger fires the Logic app will enumerate a storage container and check whether a specific property is set on a Blob's metadata.
