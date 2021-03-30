@@ -6,7 +6,6 @@
     "variables": {
         "storageName": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ))]",
         "serviceBusNamespace": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]",
-        "serviceBusName": "servicebus",
         "logicAppName": "BlogTriggeredLogicApp",
         "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
     },
