@@ -21,14 +21,6 @@
         "workflows_PollStorageLA_name": {
             "defaultValue": "PollStorageLA",
             "type": "String"
-        },
-        "namespaces_StorageTriggers_name": {
-            "defaultValue": "StorageTriggers",
-            "type": "String"
-        },
-        "storageAccounts_storagetrigger_name": {
-            "defaultValue": "storagetrigger",
-            "type": "String"
         }
     },
     "variables": {
@@ -141,10 +133,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
             "apiVersion": "2017-04-01",
-            "name": "[concat(parameters('namespaces_StorageTriggers_name'), '/RootManageSharedAccessKey')]",
+            "name": "[concat(variables('serviceBusNamespace'), '/RootManageSharedAccessKey')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_StorageTriggers_name'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', concat(variables('serviceBusNamespace')))]"
             ],
             "properties": {
                 "rights": [
@@ -157,10 +149,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
             "apiVersion": "2018-01-01-preview",
-            "name": "[concat(parameters('namespaces_StorageTriggers_name'), '/default')]",
+            "name": "[concat(variables('serviceBusNamespace'), '/default')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_StorageTriggers_name'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespace'))]"
             ],
             "properties": {
                 "defaultAction": "Deny",
@@ -171,10 +163,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/queues",
             "apiVersion": "2018-01-01-preview",
-            "name": "[concat(parameters('namespaces_StorageTriggers_name'), '/storage-trigger')]",
+            "name": "[concat(variables('serviceBusNamespace'), '/storage-trigger')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces_StorageTriggers_name'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespace'))]"
             ],
             "properties": {
                 "lockDuration": "PT30S",
@@ -194,9 +186,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2021-01-01",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default')]",
+            "name": "[concat(variables('storageName'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "sku": {
                 "name": "Standard_RAGRS",
@@ -214,9 +206,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "apiVersion": "2021-01-01",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default')]",
+            "name": "[concat(variables('storageName'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "sku": {
                 "name": "Standard_RAGRS",
@@ -520,10 +512,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default/azure-webjobs-hosts')]",
+            "name": "[concat(variables('storageName'), '/default/azure-webjobs-hosts')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_storagetrigger_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "properties": {
                 "defaultEncryptionScope": "$account-encryption-key",
@@ -534,10 +526,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default/azure-webjobs-secrets')]",
+            "name": "[concat(variables('storageName'), '/default/azure-webjobs-secrets')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_storagetrigger_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "properties": {
                 "defaultEncryptionScope": "$account-encryption-key",
@@ -548,10 +540,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default/poll-storage')]",
+            "name": "[concat(variables('storageName'), '/default/poll-storage')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_storagetrigger_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "properties": {
                 "defaultEncryptionScope": "$account-encryption-key",
@@ -562,10 +554,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
             "apiVersion": "2021-01-01",
-            "name": "[concat(parameters('storageAccounts_storagetrigger_name'), '/default/storagemetadatac3f938')]",
+            "name": "[concat(variables('storageName'), '/default/storagemetadatac3f938')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_storagetrigger_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storagetrigger_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', variables('storageName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
             ],
             "properties": {
                 "accessTier": "TransactionOptimized",
