@@ -144,20 +144,6 @@
             }
         },
         {
-            "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
-            "apiVersion": "2018-01-01-preview",
-            "name": "[concat(variables('serviceBusNamespace'), '/default')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespace'))]"
-            ],
-            "properties": {
-                "defaultAction": "Deny",
-                "virtualNetworkRules": [],
-                "ipRules": []
-            }
-        },
-        {
             "type": "Microsoft.ServiceBus/namespaces/queues",
             "apiVersion": "2018-01-01-preview",
             "name": "[concat(variables('serviceBusNamespace'), '/storage-trigger')]",
@@ -197,30 +183,6 @@
                 },
                 "deleteRetentionPolicy": {
                     "enabled": false
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/fileServices",
-            "apiVersion": "2021-01-01",
-            "name": "[concat(variables('storageName'), '/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
-            ],
-            "sku": {
-                "name": "Standard_RAGRS",
-                "tier": "Standard"
-            },
-            "properties": {
-                "protocolSettings": {
-                    "smb": {}
-                },
-                "cors": {
-                    "corsRules": []
-                },
-                "shareDeleteRetentionPolicy": {
-                    "enabled": true,
-                    "days": 7
                 }
             }
         },
