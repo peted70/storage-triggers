@@ -6,10 +6,6 @@
             "defaultValue": "azureblob",
             "type": "String"
         },
-        "sites_StorageMetadata_name": {
-            "defaultValue": "StorageMetadata",
-            "type": "String"
-        },
         "connections_servicebus_name": {
             "defaultValue": "servicebus",
             "type": "String"
@@ -25,7 +21,8 @@
     },
     "variables": {
         "storageName": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ))]",
-        "serviceBusNamespace": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]"
+        "serviceBusNamespace": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]",
+        "metadataFunctionName": "[toLower( concat('StorageMetadata', uniqueString(resourceGroup().id) ))]"
     },
     "resources": [
         {
@@ -230,7 +227,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
-            "name": "[parameters('sites_StorageMetadata_name')]",
+            "name": "[variables('metadataFunctionName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_UKSouthPlan_name'))]"
@@ -268,10 +265,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/web')]",
+            "name": "[concat(variables('metadataFunctionName'), '/web')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "numberOfWorkers": 1,
@@ -349,10 +346,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/01fd5c69cd24435490b72953b6ab92d7')]",
+            "name": "[concat(variables('metadataFunctionName'), '/01fd5c69cd24435490b72953b6ab92d7')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -368,10 +365,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/471441db001f47e49f040f2c31fe825d')]",
+            "name": "[concat(variables('metadataFunctionName'), '/471441db001f47e49f040f2c31fe825d')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -387,10 +384,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/56a490a34af545d6a4e74423d8f7bba6')]",
+            "name": "[concat(variables('metadataFunctionName'), '/56a490a34af545d6a4e74423d8f7bba6')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -406,10 +403,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/a6d5ae380c8c4703a3a4c0c033b7db42')]",
+            "name": "[concat(variables('metadataFunctionName'), '/a6d5ae380c8c4703a3a4c0c033b7db42')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -425,10 +422,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/a711a24f2a5342cb91631a4773d22a33')]",
+            "name": "[concat(variables('metadataFunctionName'), '/a711a24f2a5342cb91631a4773d22a33')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -444,10 +441,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/dda61bb75f4f4d889a6f50efb0995bbb')]",
+            "name": "[concat(variables('metadataFunctionName'), '/dda61bb75f4f4d889a6f50efb0995bbb')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -463,10 +460,10 @@
         {
             "type": "Microsoft.Web/sites/deployments",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/e2a3b9abcc7e438a89e8a9ae65c151e6')]",
+            "name": "[concat(variables('metadataFunctionName'), '/e2a3b9abcc7e438a89e8a9ae65c151e6')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "status": 4,
@@ -482,10 +479,10 @@
         {
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/Check', parameters('sites_StorageMetadata_name'))]",
+            "name": "[concat(variables('metadataFunctionName'), '/Check', variables('metadataFunctionName'))]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "script_root_path_href": "https://storagemetadata.azurewebsites.net/admin/vfs/site/wwwroot/CheckStorageMetadata/",
@@ -499,10 +496,10 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_StorageMetadata_name'), '/', parameters('sites_StorageMetadata_name'), '.azurewebsites.net')]",
+            "name": "[concat(variables('metadataFunctionName'), '/', variables('metadataFunctionName'), '.azurewebsites.net')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_StorageMetadata_name'))]"
+                "[resourceId('Microsoft.Web/sites', variables('metadataFunctionName'))]"
             ],
             "properties": {
                 "siteName": "StorageMetadata",
@@ -571,7 +568,7 @@
             "name": "[parameters('workflows_PollStorageLA_name')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/functions', parameters('sites_StorageMetadata_name'), concat('Check', parameters('sites_StorageMetadata_name')))]",
+                "[resourceId('Microsoft.Web/sites/functions', variables('metadataFunctionName'), concat('Check', variables('metadataFunctionName')))]",
                 "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]",
                 "[resourceId('Microsoft.Web/connections', parameters('connections_servicebus_name'))]"
             ],
@@ -605,7 +602,7 @@
                                     "inputs": {
                                         "body": "@items('For_each')",
                                         "function": {
-                                            "id": "[resourceId('Microsoft.Web/sites/functions', parameters('sites_StorageMetadata_name'), concat('Check', parameters('sites_StorageMetadata_name')))]"
+                                            "id": "[resourceId('Microsoft.Web/sites/functions', variables('metadataFunctionName'), concat('Check', variables('metadataFunctionName')))]"
                                         }
                                     }
                                 },
