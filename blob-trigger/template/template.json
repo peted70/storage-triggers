@@ -5,7 +5,7 @@
     },
     "variables": {
         "storageName": "[toLower( concat('triggers', uniqueString(resourceGroup().id) ))]",
-        "storageTriggers": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]",
+        "serviceBusNamespace": "[toLower( concat('StorageTriggers', uniqueString(resourceGroup().id) ))]",
         "serviceBusName": "servicebus",
         "logicAppName": "BlogTriggeredLogicApp",
         "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
@@ -14,7 +14,7 @@
         {
             "type": "Microsoft.ServiceBus/namespaces",
             "apiVersion": "2018-01-01-preview",
-            "name": "[variables('storageTriggers')]",
+            "name": "[variables('serviceBusNamespace')]",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Basic",
@@ -85,7 +85,9 @@
             "name": "serviceBus",
             "location": "[resourceGroup().location]",
             "kind": "V1",
-            "dependsOn": ["[concat(variables('storageTriggers'), '/RootManageSharedAccessKey')]"],
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules', variables('serviceBusNamespace'), 'RootManageSharedAccessKey')]"
+            ],
             "properties": {
                 "displayName": "servicebusAPI",
                 "customParameterValues": {},
@@ -100,10 +102,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
             "apiVersion": "2017-04-01",
-            "name": "[concat(variables('storageTriggers'), '/RootManageSharedAccessKey')]",
+            "name": "[concat(variables('serviceBusNamespace'), '/RootManageSharedAccessKey')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('storageTriggers'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespace'))]"
             ],
             "properties": {
                 "rights": [
@@ -116,10 +118,10 @@
         {
             "type": "Microsoft.ServiceBus/namespaces/queues",
             "apiVersion": "2018-01-01-preview",
-            "name": "[concat(variables('storageTriggers'), '/storage-trigger')]",
+            "name": "[concat(variables('serviceBusNamespace'), '/storage-trigger')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('storageTriggers'))]"
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespace'))]"
             ],
             "properties": {
                 "lockDuration": "PT30S",
