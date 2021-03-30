@@ -85,6 +85,7 @@
             "name": "serviceBus",
             "location": "[resourceGroup().location]",
             "kind": "V1",
+            "dependsOn": ["[concat(variables('storageTriggers'), '/RootManageSharedAccessKey')]"],
             "properties": {
                 "displayName": "servicebusAPI",
                 "customParameterValues": {},
