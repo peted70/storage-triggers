@@ -138,6 +138,10 @@ The polling Logic app will then send a service bus message if the custom metadat
 
 ![Polling Trigger Logic App](./images/polltrigger-la.png)
 
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fpeted70%2Fstorage-triggers%2Fmain%2Fpoll-storage%2Ftemplate%2Ftemplate.json" target="_blank">
+    <img src="https://aka.ms/deploytoazurebutton"/>
+</a>
+
 ## Event Grid
 
 So, create a Logic App in the same way as before but this time use an event Grid Trigger:
